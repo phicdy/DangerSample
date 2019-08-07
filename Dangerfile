@@ -3,3 +3,4 @@ if git.modified_files.include? "app/src/main/res/layout/*.xml"
 end
 
 message "test"
+warn "test"
