@@ -7,7 +7,6 @@ layout_files = active_files.select { |file| file.include?("app/src/main/res/layo
 
 in_textview = false
 maxline_exists  = false
-textview_lines = []
 textview_line_num = 0
 layout_files.each do |filename|
   file = File.read(filename)
@@ -15,15 +14,13 @@ layout_files.each do |filename|
   lines.each_with_index do |l, num|
     if l.include?("<TextView")
         in_textview = true
-        textview_lines.clear
         textview_line_num = num + 1
     end
     if in_textview 
-        textview_lines.push(l)
         if l.include?("</TextView>") || l.include?("/>")
             in_textview = false
             if !maxline_exists
-                warn("Please add android:maxLines\n```xml\n#{textview_lines.join()}```", file: "#{filename}", line: textview_line_num)
+                message("Please add android:maxLines", file: "#{filename}", line: textview_line_num)
             end
         elsif l.include?("android:maxLines")
             maxline_exists  = true
