@@ -9,10 +9,10 @@ in_textview = false
 maxline_exists  = false
 textview_lines = []
 textview_line_num = 0
-layout_files.each_with_index do |filename, num|
+layout_files.each do |filename|
   file = File.read(filename)
   lines = file.lines
-  lines.each do |l|
+  lines.each_with_index do |l, num|
     if l.include?("<TextView")
         in_textview = true
         textview_lines.clear
