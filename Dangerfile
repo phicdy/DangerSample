@@ -19,7 +19,7 @@ git.diff.patch.lines.each do |diff_line|
     if diff_line.include?("</TextView>") || diff_line.include?("/>")
       in_textview = false
       if !maxline_exists
-        message("Please add android:maxLines\n```xml#{textview_line.join()}```")
+        message("Please add android:maxLines\n```xml\n#{textview_line.join()}```")
       end
     elsif diff_line.include?("android:maxLines")
       maxline_exists  = true
