@@ -7,6 +7,28 @@ layout_files = active_files.select { |file| file.include?("app/src/main/res/layo
 
 in_textview = false
 maxline_exists  = false
+textview_line = []
+git.diff.patch.lines.each do |diff_line|
+  if /^.*<TextView$/ === diff_line
+    in_textview = true
+    textview_line.clear
+    message("In TextView, #{diff_line}")
+  end
+  if in_textview 
+    textview_line.push(diff_line)
+    if diff_line.include?("</TextView>") || diff_line.include?("/>")
+      in_textview = false
+      if !maxline_exists
+        message("Please add android:maxLines\n```xml#{textview_line.join()}```")
+      end
+    elsif diff_line.include?("android:maxLines")
+      maxline_exists  = true
+    end
+  end    
+end
+
+in_textview = false
+maxline_exists  = false
 textview_line_num = 0
 layout_files.each do |filename|
   file = File.read(filename)
