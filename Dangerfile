@@ -21,7 +21,7 @@ layout_files.each do |filename|
         if l.include?("</TextView>") || l.include?("/>")
             in_textview = false
             if !maxline_exists
-                warn("Please add android:maxLines, #{filename}\n```xml\n#{textview_lines.join('\n')}```")
+                warn("Please add android:maxLines, #{filename}\n```xml\n#{textview_lines.join()}```")
             end
         elsif l.include?("android:maxLines")
             maxline_exists  = true
