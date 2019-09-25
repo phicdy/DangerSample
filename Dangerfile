@@ -1,3 +1,11 @@
+android_lint.skip_gradle_task = true
+android_lint.filtering = true
+Dir["*/build/reports/lint-results-debug.xml"].each do |file|
+  android_lint.report_file = file
+  android_lint.lint(inline_mode: true)
+end
+
+
 if /1dp|3dp|5dp|7dp|9dp/ === github.pr_diff
   message "dp should be multiple of 4"
 end
